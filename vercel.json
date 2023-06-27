@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "index.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      { "src": "/jwt", "methods": ["POST"], "dest": "index.js" },
+      { "src": "/items", "methods": ["POST"], "dest": "index.js" },
+      { "src": "/items", "methods": ["GET"], "dest": "index.js" },
+      { "src": "/cart", "methods": ["POST"], "dest": "index.js" },
+      { "src": "/cart", "methods": ["GET"], "dest": "index.js" },
+      { "src": "/cart/:id", "methods": ["DELETE"], "dest": "index.js" }
+    ]
+  }
+  

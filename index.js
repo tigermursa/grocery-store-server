@@ -8,6 +8,15 @@ const port = process.env.PORT || 5000;
 // Middleware >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 app.use(cors());
 app.use(express.json());
+
+// Set the CORS headers
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+
 const verifyJWT = (req, res, next) => {
   const authorization = req.headers.authorization;
   if (!authorization) {
@@ -42,11 +51,9 @@ const client = new MongoClient(uri, {
 });
 //important note : remove try function before vercel deploy
 async function run() {
-  try {
-    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+  
 
-    const itemsCollection = client.db("grocery-store").collection("items");
+  const itemsCollection = client.db("grocery-store").collection("items");
     const cartCollection = client.db("grocery-store").collection("cart");
 
     // jwt code
@@ -175,10 +182,11 @@ async function run() {
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
     );
-  } finally {
-    // Ensures that the client will close when you finish/error
-    // await client.close();
-  }
+
+
+
+
+
 }
 run().catch(console.dir);
 
@@ -191,15 +199,4 @@ app.listen(port, () => {
   console.log(`Alhamdulillah the server running at the ${port} port`);
 });
 
-// install the 7 brothers
-// npm init --y
-// npm i express
-// npm i nodemon
-// npm i cors
-// npm i mongodb
-// npm i dotenv
-// npm i jsonwebtoken
-// and "start":"nodemon index"
 
-// .gitignore = node_modules /n .env
-// DONT FORGET TO IMPORT OBJECT ID FROM MONGO const { ObjectId } = require("mongodb");
